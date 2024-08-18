@@ -113,10 +113,17 @@ return [
         ],
         'mongodb' => [
             'driver' => 'mongodb',
-            'dsn' => env('DB_URI'),
             'database' => env('DB_DATABASE', 'interview'),
+            'dsn' => "mongodb+srv://".env('DB_USERNAME').":".env('DB_PASSWORD')."@".env('DB_HOST')."/",
+//            'host' => env('DB_HOST'),
+//            'port' => env('DB_PORT'),
+//            'username' => env('DB_USERNAME'),
+//            'password' => env('DB_PASSWORD'),
         ],
+        [
+            'driver' => 'mongodb',
 
+        ]
     ],
 
     /*

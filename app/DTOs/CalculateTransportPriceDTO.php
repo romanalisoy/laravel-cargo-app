@@ -2,19 +2,19 @@
 
 namespace App\DTOs;
 
+use App\Http\Requests\CalculateTransportPriceRequest;
+
 class CalculateTransportPriceDTO
 {
-    public array $addresses;
+    private array $addresses;
 
-    public function __construct(array $addresses)
+    public function __construct(CalculateTransportPriceRequest $request)
     {
-        $this->addresses = $addresses;
+        $this->addresses = $request->input('addresses');
     }
 
-    public static function fromRequest($request): CalculateTransportPriceDTO
+    public function getAddresses(): array
     {
-        return new self(
-            $request->addresses
-        );
+        return $this->addresses;
     }
 }

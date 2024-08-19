@@ -3,13 +3,9 @@
 namespace App\Services;
 
 use App\DTOs\CalculateTransportPriceDTO;
-use App\Models\City;
-use App\Models\VehicleType;
 use App\Repositories\Contracts\ICityRepository;
 use App\Repositories\Contracts\IVehicleTypeRepository;
 use Exception;
-use HttpException;
-use Illuminate\Support\Facades\Http;
 
 class TransportPriceService
 {
@@ -40,7 +36,6 @@ class TransportPriceService
                 $address['zip'],
                 $address['city']
             );
-
             if (!$city) {
                 throw new Exception('Invalid address');
             }

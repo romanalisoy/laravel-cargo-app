@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CalculateTransportPriceRequest;
-use App\DTOs\CalculateTransportPriceDTO;
 use App\Services\TransportPriceService;
 use Illuminate\Http\JsonResponse;
 
 class TransportController extends Controller
 {
+    /** @var TransportPriceService  */
     protected TransportPriceService $transportPriceService;
 
     /**

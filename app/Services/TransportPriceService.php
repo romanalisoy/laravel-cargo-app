@@ -52,7 +52,7 @@ class TransportPriceService
         foreach ($vehicleTypes as $vehicleType) {
             $prices[] = [
                 'vehicle_type' => $vehicleType->number,
-                'price' => round(min($distance * $vehicleType->cost_km, $vehicleType->minimum), 2),
+                'price' => round(max($distance * $vehicleType->cost_km, $vehicleType->minimum), 2),
             ];
         }
 

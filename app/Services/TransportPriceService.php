@@ -6,6 +6,7 @@ use App\DTOs\CalculateTransportPriceDTO;
 use App\Exceptions\AddressNotFoundException;
 use App\Repositories\Contracts\ICityRepository;
 use App\Repositories\Contracts\IVehicleTypeRepository;
+use Exception;
 
 class TransportPriceService
 {
@@ -26,15 +27,16 @@ class TransportPriceService
      * @param CalculateTransportPriceDTO $dto The data transfer object containing the input data.
      * @return array The calculated prices.
      * @throws AddressNotFoundException
+     * @throws Exception
      */
     public function calculatePrice(CalculateTransportPriceDTO $dto): array
     {
         // Validate that each address exists in the database
         foreach ($dto->getAddresses() as $address) {
             $city = $this->cityRepository->findBy(
-                $address['country'],
-                $address['zip'],
-                $address['city']
+                $address->country,
+                $address->zip,
+                $address->city
             );
             if (!$city) {
                 throw new AddressNotFoundException('Invalid address');
@@ -62,6 +64,7 @@ class TransportPriceService
      *
      * @param array $addresses An array of addresses.
      * @return float The total distance.
+     * @throws Exception
      */
     public function calculateTotalDistance(array $addresses): float
     {
@@ -70,8 +73,8 @@ class TransportPriceService
         // Calculate distance between each consecutive pair of addresses
         for ($i = 0; $i < count($addresses) - 1; $i++) {
             $distance = $this->directionsService->getDistanceBetweenPoints(
-                origin: $addresses[$i]['city'] . ',' . $addresses[$i]['country'],
-                destination: $addresses[$i + 1]['city'] . ',' . $addresses[$i + 1]['country']);
+                origin: $addresses[$i]->city . ',' . $addresses[$i]->country,
+                destination: $addresses[$i + 1]->city . ',' . $addresses[$i + 1]->country);
             $totalDistance += $distance;
         }
         return $totalDistance;

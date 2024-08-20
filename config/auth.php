@@ -118,5 +118,5 @@ return [
     */
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
-
+    'api_key' => env('API_KEY'),
 ];

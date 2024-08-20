@@ -10,7 +10,7 @@ This project is a PHP-based service for calculating transport prices based on di
 - Fetch city data and vehicle types.
 - Calculate distances using Google Maps API.
 - Unit and feature tests for the application.
-- JWT-based authentication for API endpoints.
+- API KEY based authentication for API endpoints.
 
 ## Prerequisites
 
@@ -24,6 +24,7 @@ This project is a PHP-based service for calculating transport prices based on di
 
 ### Using Docker
 
+The easiest way to run the application is to use Docker. The following steps will guide you through the process:
 1. **Clone the repository:**
    ```sh
    git clone https://github.com/romanalisoy/laravel-transport-api.git
@@ -47,6 +48,9 @@ This project is a PHP-based service for calculating transport prices based on di
     ```
 
 ### Using Local Development Environment
+
+The following steps will guide you through the process of setting up the application in a local development environment:
+
 1. **Clone the repository:**
    ```sh
     git clone https://github.com/romanalisoy/laravel-transport-api.git
@@ -113,8 +117,8 @@ __**Example Request Body:**__
 
 __**Authorization:**__
 
-You need to provide a valid API Key in the Authorization header to access this endpoint. You need to change API_KEY environment variable in .env file to your own API key.
-```http request
+You need to provide a valid API Key in the X-TOKEN header to access this endpoint. You need to change API_KEY environment variable in .env file to your own API key.
+```env
 X-TOKEN: {YOUR_API_KEY}
 ```
 

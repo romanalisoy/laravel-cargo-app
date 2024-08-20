@@ -1,66 +1,167 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Transport Price Calculation Service
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Overview
 
-## About Laravel
+This project is a PHP-based service for calculating transport prices based on distances between cities. It uses various repositories and services to fetch city data, vehicle types, and calculate distances.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Calculate transport prices based on distances between cities.
+- Fetch city data and vehicle types.
+- Calculate distances using Google Maps API.
+- Unit and feature tests for the application.
+- JWT-based authentication for API endpoints.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Prerequisites
 
-## Learning Laravel
+- PHP 8.3 or higher
+- Composer
+- Laravel Framework
+- MongoDB
+- Docker (for Docker-based setup)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Installation
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Using Docker
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/romanalisoy/laravel-transport-api.git
+   cd transport-price-service
+   ```
+   
+2. **Set up environment variables:**
 
-## Laravel Sponsors
+   Copy the .env.example file to .env and update the necessary environment variables, especially the database and Google API key configurations.
+    ```sh
+    cp .env.example .env
+    ```
+   
+3. **Build and start the Docker containers:**
+   ```sh
+    docker compose up --build
+   ```
+4. **Generate application key:**
+    ```sh
+    docker-compose exec app php artisan key:generate
+    ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Using Local Development Environment
+1. **Clone the repository:**
+   ```sh
+    git clone https://github.com/romanalisoy/laravel-transport-api.git
+    cd transport-price-service
+   ```
 
-### Premium Partners
+2. **Install dependencies:**
+   ```sh
+    composer install
+   ``` 
+3. **Set up environment variables:**
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+   Copy the .env.example file to .env and update the necessary environment variables, especially the database and Google API key configurations.
+    ```sh
+    cp .env.example .env
+    ```
+4. **Generate application key:**
+    ```sh
+    php artisan key:generate
+    ```
+5. **Running the Application**
 
-## Contributing
+    To start the application, use the following command:
+    ```sh
+    php artisan serve
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Usage
+The application will be available at http://localhost:8000.  
 
-## Code of Conduct
+### Running Tests
+To run the unit tests, use the following command:
+```sh
+php artisan test
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## API Endpoints
+Calculate Transport Price
 
-## Security Vulnerabilities
+Endpoint: 
+```http request
+POST /api/calculate-price
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Description: Calculates the transport price based on the provided addresses and vehicle types. 
 
-## License
+__**Example Request Body:**__
+```json
+{
+    "addresses": [
+        {
+            "country": "DE",
+            "zip": "20095",
+            "city": "Hamburg"
+        },
+        {
+            "country": "DE",
+            "zip": "80331",
+            "city": "Munich"
+        }
+    ]
+}
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+__**Authorization:**__
+
+You need to provide a valid API Key in the Authorization header to access this endpoint. You need to change API_KEY environment variable in .env file to your own API key.
+```http request
+X-TOKEN: {YOUR_API_KEY}
+```
+
+__**Example Response Body:**__
+```json
+[
+    {
+        "vehicle_type": 3,
+        "price": 206.22
+    },
+    {
+        "vehicle_type": 10,
+        "price": 399
+    },
+    {
+        "vehicle_type": 11,
+        "price": 192.73
+    },
+    "..."
+]
+```
+
+
+## Project Structure
+- app/DTOs: Data Transfer Objects used in the application.
+- app/Repositories/Contracts: Interfaces for repositories.
+- app/Services: Service classes containing business logic.
+- tests/Unit: Unit tests for the application.
+
+### **Key Classes and Methods**
+
+- TransportPriceService
+    - calculatePrice(CalculateTransportPriceDTO $dto): array Calculates the transport price based on the provided addresses and vehicle types.
+    - calculateTotalDistance(array $addresses): float Calculates the total distance between a series of addresses.
+- DirectionsService
+    - getDistanceBetweenPoints(string $origin, string $destination): float Fetches the distance between two points using the Google Maps API.
+
+- Environment Variables
+    - DB_CONNECTION: Database connection type (e.g., mongodb).
+    - DB_HOST: Database host.
+    - DB_PORT: Database port.
+    - DB_DATABASE: Database name.
+    - DB_USERNAME: Database username.
+    - DB_PASSWORD: Database password.
+    - GOOGLE_API_KEY: API key for Google Maps.
+
+
+### **UML Diagram**
+
+![UML Diagram](https://www.plantuml.com/plantuml/svg/ZLHDZzCm4BttLrYh7hg2QkyveEss73XjnKPS448ccIsZTUp8CmO5n7_7DKbsJAsekIL-7szU9hadrfv3PrQzRbxq2THDxRMbtdbMHuyDgBqsJJ2QqLdr1Fv7V7QZVgzKl1gZYTHCIFWHCYBErvjcL804s4o2a1CFzQDQj-nkAwMzrqE1NplMve34saQTX59htROUY80YyTaupOduPoKI7j13Snw02kbEm9Fa0_1F07jqQ9asn1xjIQsTnnFQjsgwRu4ORIeajnIEkt-XuanP4IvOzcAoNzYBK-JXGcYXB24yTr09vyzVBflOHu-Fq3j2TdwG4izesuTX7leSvdNac3FUYAFRAabT6do2xzWOg8SUSXzHzywOJHGGq79GIREwWsgCaFMtTwqyo9kU3vPoPZQX-mQ-KcZvzM675hlGJUzQc11_VUaAQrV-9BRRTuLLh5GWe6NQqXfSny_V-rKSKL6PcelEFX7YWOEt2LMM-TyWvooDcvXYowT0iVdv5xOxVb3lRTkdxpZ_MUspVz44aYjmV7ogrPtkyQwPiDi-WhCbBSkaREL2vvJtODlGcRy0)

@@ -18,7 +18,7 @@ class DirectionsService
         $response = Http::get('https://maps.googleapis.com/maps/api/directions/json', [
             'origin' => $origin,
             'destination' => $destination,
-            'key' => env('GOOGLE_API_KEY'),
+            'key' => config('services.google.maps.key'),
 
         ]);
 

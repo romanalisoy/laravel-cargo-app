@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\DTOs\AddressDTO;
 use App\DTOs\CalculateTransportPriceDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -35,6 +36,10 @@ class CalculateTransportPriceRequest extends FormRequest
      */
     public function toDto(): CalculateTransportPriceDTO
     {
-        return new CalculateTransportPriceDTO($this);
+        $addressDTOs = array_map(function ($address) {
+            return new AddressDTO(...$address);
+        }, $this->input('addresses'));
+
+        return new CalculateTransportPriceDTO(...$addressDTOs);
     }
 }

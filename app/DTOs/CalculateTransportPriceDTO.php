@@ -1,16 +1,18 @@
 <?php
 
 namespace App\DTOs;
-
-use App\Http\Requests\CalculateTransportPriceRequest;
-
 class CalculateTransportPriceDTO
 {
+
+    /**
+     * This variable holds an array of addresses.
+     * @var AddressDTO[] $addresses
+     */
     private array $addresses;
 
-    public function __construct(CalculateTransportPriceRequest $request)
+    public function __construct(AddressDTO ...$addresses)
     {
-        $this->addresses = $request->input('addresses');
+        $this->addresses = $addresses;
     }
 
     public function getAddresses(): array

@@ -48,13 +48,9 @@ class TransportPriceService
         $prices = [];
 
         foreach ($vehicleTypes as $vehicleType) {
-            $price = $distance * $vehicleType->cost_km;
-            if ($price < $vehicleType->minimum) {
-                $price = $vehicleType->minimum;
-            }
             $prices[] = [
                 'vehicle_type' => $vehicleType->number,
-                'price' => round($price, 2),
+                'price' => round(min($distance * $vehicleType->cost_km, $vehicleType->minimum), 2),
             ];
         }
 

@@ -3,9 +3,9 @@
 namespace App\Services;
 
 use App\DTOs\CalculateTransportPriceDTO;
+use App\Exceptions\AddressNotFoundException;
 use App\Repositories\Contracts\ICityRepository;
 use App\Repositories\Contracts\IVehicleTypeRepository;
-use Exception;
 
 class TransportPriceService
 {
@@ -25,7 +25,7 @@ class TransportPriceService
      *
      * @param CalculateTransportPriceDTO $dto The data transfer object containing the input data.
      * @return array The calculated prices.
-     * @throws Exception Thrown when an error occurs.
+     * @throws AddressNotFoundException
      */
     public function calculatePrice(CalculateTransportPriceDTO $dto): array
     {
@@ -37,7 +37,7 @@ class TransportPriceService
                 $address['city']
             );
             if (!$city) {
-                throw new Exception('Invalid address');
+                throw new AddressNotFoundException('Invalid address');
             }
         }
         // Calculate distance using Google Directions API
@@ -69,10 +69,9 @@ class TransportPriceService
 
         // Calculate distance between each consecutive pair of addresses
         for ($i = 0; $i < count($addresses) - 1; $i++) {
-            $origin = $addresses[$i]['city'] . ',' . $addresses[$i]['country'];
-            $destination = $addresses[$i + 1]['city'] . ',' . $addresses[$i + 1]['country'];
-
-            $distance = $this->directionsService->getDistanceBetweenPoints($origin, $destination);
+            $distance = $this->directionsService->getDistanceBetweenPoints(
+                origin: $addresses[$i]['city'] . ',' . $addresses[$i]['country'],
+                destination: $addresses[$i + 1]['city'] . ',' . $addresses[$i + 1]['country']);
             $totalDistance += $distance;
         }
         return $totalDistance;

@@ -117,7 +117,7 @@ __**Example Request Body:**__
 
 __**Authorization:**__
 
-You need to provide a valid API Key in the X-TOKEN header to access this endpoint. You need to change API_KEY environment variable in .env file to your own API key.
+You need to provide a valid API Key in the X-TOKEN header to access this endpoint. You need to change API_KEY environment variable in .env file to your own API key. You can use [LastPass](https://www.lastpass.com/features/password-generator) to generate a new API key.
 ```env
 X-TOKEN: {YOUR_API_KEY}
 ```
